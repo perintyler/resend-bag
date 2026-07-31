@@ -1,0 +1,8 @@
+manifestVersion: 1
+name: resend
+description: Email sending and inbox management via Resend
+
+tools:
+  entry: tools.ts
+  env:
+    - RESEND_API_KEY
