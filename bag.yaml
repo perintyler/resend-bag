@@ -1,4 +1,3 @@
-manifestVersion: 1
 name: resend
 description: Email sending and inbox management via Resend
 

@@ -1,4 +1,4 @@
-# Resend (Barry Pack)
+# Resend (Barry bag)
 
 Email sending, inbox management, and spam filtering via Resend.
 
