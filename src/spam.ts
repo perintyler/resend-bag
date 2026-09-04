@@ -1,4 +1,4 @@
-import { defineTool } from "@barry/tools";
+import { defineTool } from "@barry-rocks/tools";
 import { z } from "zod";
 import { D1Client } from "./cloudflare.js";
 import { requireEnv } from "./tools.js";
