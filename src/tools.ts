@@ -1,4 +1,4 @@
-import { defineTool, type ToolContext } from "@barry/tools";
+import { defineTool, type ToolContext } from "@barry-rocks/tools";
 import { z } from "zod";
 import { EmailClient } from "@barry/email";
 import { readFile } from "fs/promises";
