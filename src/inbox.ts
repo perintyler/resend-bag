@@ -1,7 +1,7 @@
 import { defineTool } from "@barry-rocks/sdk-bags";
 import { z } from "zod";
 import { D1Client, R2Client } from "./cloudflare.js";
-import { EmailClient } from "@barry/email";
+import { EmailClient } from "./client.js";
 import { requireEnv } from "./tools.js";
 const BUCKET_NAME = "barry-rocks-email-bodies";
 const BARRY_EMAIL_ADDRESS = requireEnv("BARRY_EMAIL_ADDRESS");

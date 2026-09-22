@@ -5,7 +5,6 @@
   "type": "module",
   "dependencies": {
     "@barry-rocks/sdk-bags": "link:../../barry/sdk/bags",
-    "@barry/email": "link:../../barry/packages/email",
     "zod": "3.25.76"
   },
   "devDependencies": {
@@ -15,6 +14,7 @@
     "vitest": "4.1.0"
   },
   "scripts": {
-    "test": "vitest run"
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
   }
 }

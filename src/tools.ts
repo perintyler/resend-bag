@@ -1,6 +1,6 @@
 import { defineTool, type ToolContext } from "@barry-rocks/sdk-bags";
 import { z } from "zod";
-import { EmailClient } from "@barry/email";
+import { EmailClient } from "./client.js";
 import { readFile } from "fs/promises";
 import { basename } from "path";
 
