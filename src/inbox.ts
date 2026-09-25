@@ -1,4 +1,4 @@
-import { defineTool } from "@barry-rocks/sdk-bags";
+import { defineTool } from "@barry-rocks/sdk/bags";
 import { z } from "zod";
 import { D1Client, R2Client } from "./cloudflare.js";
 import { EmailClient } from "./client.js";
