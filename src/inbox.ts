@@ -4,7 +4,6 @@ import { D1Client, R2Client } from "./cloudflare.js";
 import { EmailClient } from "./client.js";
 import { requireEnv } from "./tools.js";
 const BUCKET_NAME = "barry-rocks-email-bodies";
-const BARRY_EMAIL_ADDRESS = requireEnv("BARRY_EMAIL_ADDRESS");
 const MAX_BODY_LENGTH = 10_000;
 
 function getD1() {
@@ -240,6 +239,7 @@ export const replyEmail = defineTool({
     html: z.boolean().optional().describe("If true, body is HTML"),
   },
   handler: async ({ id, body, html }) => {
+    const from = requireEnv("BARRY_EMAIL_ADDRESS");
     const db = getD1();
     const client = getResendClient();
 
@@ -250,11 +250,11 @@ export const replyEmail = defineTool({
     const subject = email.subject.startsWith("Re: ") ? email.subject : `Re: ${email.subject}`;
 
     const result = await client.send({
-      from: BARRY_EMAIL_ADDRESS,
+      from,
       to: email.from_email,
       subject,
       ...(html ? { html: body } : { text: body }),
-      replyTo: BARRY_EMAIL_ADDRESS,
+      replyTo: from,
     });
 
     return { success: true, messageId: result.id, to: email.from_email, subject };
@@ -272,6 +272,7 @@ export const forwardEmail = defineTool({
     comment: z.string().optional().describe("Optional message to prepend to forwarded content"),
   },
   handler: async ({ id, to, comment }) => {
+    const from = requireEnv("BARRY_EMAIL_ADDRESS");
     const db = getD1();
     const r2 = getR2();
     const client = getResendClient();
@@ -304,7 +305,7 @@ export const forwardEmail = defineTool({
     const subject = email.subject.startsWith("Fwd: ") ? email.subject : `Fwd: ${email.subject}`;
 
     const result = await client.send({
-      from: BARRY_EMAIL_ADDRESS,
+      from,
       to,
       subject,
       text: forwarded,

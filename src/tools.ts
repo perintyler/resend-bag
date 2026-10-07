@@ -15,7 +15,8 @@ export function requireEnv(name: string): string {
 
 // BARRY_EMAIL_ADDRESS is the sender identity (config, not a secret). The Resend
 // API key is a per-profile secret resolved from context.secrets (see manifest).
-const BARRY_EMAIL_ADDRESS = requireEnv("BARRY_EMAIL_ADDRESS");
+// Both are read when a tool runs, never at import: Barry imports this module to
+// read tool definitions in processes that may not have the bag's environment.
 
 function emailClient(context?: ToolContext): EmailClient {
   const key = context?.secrets.RESEND_API_KEY;
@@ -50,6 +51,7 @@ export const sendEmail = defineTool({
       .describe("File attachments (reads from local filesystem)"),
   },
   handler: async ({ to, subject, body, cc, bcc, replyTo, html, attachments }, context) => {
+    const from = requireEnv("BARRY_EMAIL_ADDRESS");
     const client = emailClient(context);
 
     const emailAttachments = attachments?.length
@@ -62,7 +64,7 @@ export const sendEmail = defineTool({
       : undefined;
 
     const result = await client.send({
-      from: BARRY_EMAIL_ADDRESS,
+      from,
       to,
       subject,
       ...(html ? { html: body } : { text: body }),
@@ -93,7 +95,7 @@ export const emailStatus = defineTool({
     return {
       configured,
       apiKey: configured ? "Set" : "Not set",
-      from: BARRY_EMAIL_ADDRESS,
+      from: requireEnv("BARRY_EMAIL_ADDRESS"),
     };
   },
   cliFormat: (result) => {
